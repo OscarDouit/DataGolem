@@ -1,0 +1,26 @@
+.app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    height: 60px; /* Ajuste la hauteur de la barre si nécessaire */
+}
+
+.logo {
+    height: 100%; /* Fait que le logo prenne toute la hauteur de .app-bar */
+    max-height: 50px; /* Limite la hauteur du logo pour qu'il reste proportionnel */
+    object-fit: contain; /* Assure que l'image garde ses proportions */
+}
+
+.menu-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.ant-menu {
+    min-width: 300px;
+    border: none;
+}
