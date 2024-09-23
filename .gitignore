@@ -8,3 +8,6 @@
 *.njsproj
 *.sln
 *.sw?
+/back/node_modules/
+/back/.env
+/back/certs/ca.pem
