@@ -1,6 +1,6 @@
 
 import { NextFunction, Request, Response } from "express"
-import { User } from "../entity/User"
+import { User } from "../entity/user"
 import {UserDto} from "../dto/user.dto";
 import {PasswordService} from "../services/password.service";
 import {AppDataSource} from "../index";
@@ -68,6 +68,7 @@ export class UserController {
         let userToRemove = await this.userRepository.findOneBy({ id })
 
         if (!userToRemove) {
+            response.status(404)
             return "this user not exist"
         }
 

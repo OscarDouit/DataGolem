@@ -1,25 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Comment } from "./comment";
 
 @Entity()
 export class User {
-
     @PrimaryGeneratedColumn()
-    id: number
-
-    @Column ({ nullable: false })
-    pseudo: string
+    id: number;
 
     @Column({ nullable: false })
-    firstname: string
+    pseudo: string;
 
     @Column({ nullable: false })
-    lastname: string
+    firstname: string;
 
     @Column({ nullable: false })
-    email: string
+    lastname: string;
 
     @Column({ nullable: false })
-    password: string
+    email: string;
+
+    @Column({ nullable: false })
+    password: string;
+
+    @OneToMany(() => Comment, comment => comment.user)
+    comments: Comment[];
 
     constructor(pseudo: string, firstname: string, lastname: string, email: string, password: string) {
         this.pseudo = pseudo;

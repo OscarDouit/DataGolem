@@ -20,10 +20,11 @@ AppDataSource.initialize().then(async () => {
     // ...
 
     // start express server
-    app.listen(3000)
+    const PORT = 3000
+    app.listen(PORT)
 
     app.use(useRouter);
 
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results")
+    console.log("Express server has started on port 3000. Open http://localhost:"+PORT+"/users to see results")
 
 }).catch(error => console.log(error))

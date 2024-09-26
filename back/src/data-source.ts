@@ -1,7 +1,8 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { User } from "./entity/User"
+import { User } from "./entity/user"
 import * as fs from "node:fs";
+import {Car} from "./entity/car";
 
 export const createNewAppDataSource = (): DataSource => {
     return new DataSource({
@@ -13,7 +14,9 @@ export const createNewAppDataSource = (): DataSource => {
         database: process.env.POSTGRES_DB,
         synchronize: true,
         logging: false,
-        entities: [User],
+        "entities": [
+            "src/entity/*.ts"
+        ],
         migrations: [],
         subscribers: [],
         ssl: {
