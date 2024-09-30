@@ -8,7 +8,7 @@ const items = [
         key: '1',
         label: (
             <a rel="noopener noreferrer">
-                Menu1
+                Découvrir
             </a>
         ),
     },
@@ -16,7 +16,7 @@ const items = [
         key: '2',
         label: (
             <a rel="noopener noreferrer">
-                Menu2
+                Rechercher
             </a>
         ),
     },
@@ -24,7 +24,7 @@ const items = [
         key: '3',
         label: (
             <a rel="noopener noreferrer">
-                Menu3
+                Apprendre
             </a>
         ),
     },

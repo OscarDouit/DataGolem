@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1;
+}
+
+.main-title {
+    font-size: 4vw;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid white;
+}
+
+.sub-title {
+    font-size: 1.5vw;
+    color: #fff;
+    overflow: hidden;
+    height: auto;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+    .main-title {
+        font-size: 8vw;
+    }
+
+    .sub-title {
+        font-size: 4vw;
+    }
+
+}
+
+@keyframes rollUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes rollIn {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.roll-up {
+    animation: rollUp 0.5s ease-in-out forwards;
+}
+
+.roll-in {
+    animation: rollIn 0.5s ease-in-out forwards;
+}
+
+.discover-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: 2px solid white;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}

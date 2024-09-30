@@ -1,26 +1,52 @@
+.logo {
+    height: 100%;
+    max-height: 50px;
+    object-fit: contain;
+}
+
 .app-bar {
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-inline: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f0f0f0;
-    height: 60px; /* Ajuste la hauteur de la barre si nécessaire */
+    // dégradé de background couleur du noir au transparent
+    background: none;
+    padding: 0 20px;
+    height: 70px;
+    width: 100%;
+    border: none;
+    z-index: 100;
+}
+
+li {
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .logo {
-    height: 100%; /* Fait que le logo prenne toute la hauteur de .app-bar */
-    max-height: 50px; /* Limite la hauteur du logo pour qu'il reste proportionnel */
-    object-fit: contain; /* Assure que l'image garde ses proportions */
+    height: 40px;
 }
 
 .menu-container {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     justify-content: center;
 }
 
+#menu {
+    background-color: transparent;
+    border-bottom: none;
+}
+
+#menu .ant-menu-item {
+    color: white;
+}
+
 .ant-menu {
-    min-width: 300px;
+    min-width: 400px;
     border: none;
+}
+
+body {
+    margin: 0;
 }
