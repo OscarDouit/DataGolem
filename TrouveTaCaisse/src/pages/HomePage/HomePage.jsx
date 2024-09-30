@@ -2,23 +2,37 @@ import './HomePage.css';
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {
-    const [subTitle, setSubTitle] = useState('Présente'); // Texte initial
+    const [subTitle, setSubTitle] = useState(null); // Texte initial
     const [animationClass, setAnimationClass] = useState(''); // Classe pour contrôler l'animation
 
     useEffect(() => {
+        setSubTitle('Présente');
         // Démarrer l'animation de roulement après 3 secondes
         const timer = setTimeout(() => {
             setAnimationClass('roll-up'); // Lancer l'animation de roulement vers le haut
-        }, 1700);
+        }, 2000);
         // Changer le texte et lancer l'animation d'entrée après un délai
         const secondTimer = setTimeout(() => {
             setSubTitle('Le futur de la recherche automobile');
             setAnimationClass('roll-in'); // Lancer l'animation de roulement vers le bas
-        }, 2000); // Délai après la première animation
+        }, 2300); // Délai après la première animation
+
+        // faire un roll up du texte et en afficher un autre après un délai
+        const thirdTimer = setTimeout(() => {
+            setAnimationClass('roll-up'); // Lancer l'animation de roulement vers le haut
+        }, 5300); // Délai après la deuxième animation
+
+        // Remettre le texte initial et lancer l'animation d'entrée après un délai
+        const fourthTimer = setTimeout(() => {
+            const discoverButton = <button className={'discover-button'}>Découvrir</button>;
+            setSubTitle(discoverButton);
+            setAnimationClass('roll-in'); // Lancer l'animation de roulement vers le bas
+        }, 5600); // Délai après la troisième animation
 
         return () => {
             clearTimeout(timer);
             clearTimeout(secondTimer);
+            clearTimeout(thirdTimer);
         };
     }, []);
 

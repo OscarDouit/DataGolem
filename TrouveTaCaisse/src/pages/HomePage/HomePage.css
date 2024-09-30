@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
-/* HomePage.css */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
 .overlay-text {
     position: absolute;
     top: 50%;
@@ -9,28 +15,36 @@
     text-align: center;
     color: white;
     font-family: 'Poppins', sans-serif;
-    z-index: 1; /* Assurez-vous que le texte est au-dessus de la vidéo */
+    z-index: 1;
 }
 
-/* Titre principal "Trouve Ta Caisse" */
 .main-title {
     font-size: 4vw;
     font-weight: 700;
-    margin-bottom: 20px; /* Espace entre le titre et le sous-titre */
-    border-bottom: 2px solid white; /* Ligne de séparation */
+    margin-bottom: 20px;
+    border-bottom: 2px solid white;
 }
 
-/* Sous-titre avec animation */
 .sub-title {
     font-size: 1.5vw;
     color: #fff;
     overflow: hidden;
-    height: 2.5vw; /* Hauteur fixe pour éviter le saut lors de l'animation */
+    height: auto;
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     opacity: 1;
 }
 
-/* Animation pour faire rouler le texte */
+@media screen and (max-width: 768px) {
+    .main-title {
+        font-size: 8vw;
+    }
+
+    .sub-title {
+        font-size: 4vw;
+    }
+
+}
+
 @keyframes rollUp {
     0% {
         transform: translateY(0);
@@ -53,12 +67,21 @@
     }
 }
 
-/* Transition de roulement pour le texte sortant */
 .roll-up {
     animation: rollUp 0.5s ease-in-out forwards;
 }
 
-/* Transition de roulement pour le texte entrant */
 .roll-in {
     animation: rollIn 0.5s ease-in-out forwards;
+}
+
+.discover-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: 2px solid white;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
