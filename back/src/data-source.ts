@@ -21,7 +21,7 @@ export const createNewAppDataSource = (): DataSource => {
         subscribers: [],
         ssl: {
             rejectUnauthorized: true,
-            ca: fs.readFileSync("./certs/ca.pem").toString(),
+            ca: fs.readFileSync("/Users/louisalleyne/Documents/M1/Architecture de l'information/DataGolem/back/src/certs/ca.pem").toString(),
         },
     });
 }
