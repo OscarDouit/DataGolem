@@ -9,5 +9,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: process.env.VITE_PORT || 4000,  // Utilise la variable d'environnement ou 4000 par défaut
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
 });

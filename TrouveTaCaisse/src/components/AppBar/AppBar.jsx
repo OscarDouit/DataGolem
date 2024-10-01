@@ -1,5 +1,6 @@
 import {Button, Menu} from 'antd';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './AppBar.css';
 import {UserOutlined} from "@ant-design/icons";
 
@@ -32,15 +33,24 @@ const items = [
 
 const AppBar = () => {
     const [current, setCurrent] = useState('1');
+    const navigate = useNavigate();
 
     const onClick = (e) => {
         setCurrent(e.key);
     };
 
+    const handleLogin = () => {
+        navigate('/login');
+    }
+
+    const handleHome = () => {
+        navigate('/');
+    }
+
     return (
         <div className="app-bar">
             {/* Logo à gauche */}
-            <img src="https://static.vecteezy.com/system/resources/previews/000/623/448/original/auto-car-logo-template-vector-icon.jpg" alt="logo" className="logo" />
+            <img src="https://static.vecteezy.com/system/resources/previews/000/623/448/original/auto-car-logo-template-vector-icon.jpg" alt="logo" onClick={handleHome} className="logo" />
 
             {/* Menu centré */}
             <div className="menu-container">
@@ -49,7 +59,7 @@ const AppBar = () => {
 
             {/* Conteneur pour le bouton de connexion */}
             <div className="login-container">
-                <Button id={'login-button'} icon={<UserOutlined style={{color: 'white'}} />} type="text" />
+                <Button id={'login-button'} icon={<UserOutlined style={{color: 'white'}} />} type="text" onClick={handleLogin} />
             </div>
         </div>
     );

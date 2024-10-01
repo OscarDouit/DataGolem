@@ -1,4 +1,5 @@
-import * as express from "express"
+import * as express from "express";
+var cors = require('cors')
 import * as bodyParser from "body-parser"
 import { createNewAppDataSource} from "./data-source"
 import { config } from 'dotenv';
@@ -13,13 +14,13 @@ import {DataSource} from "typeorm";
 
 AppDataSource.initialize().then(async () => {
     // create express app
+
     const app = express()
+    app.use(cors())
+
+
     app.use(bodyParser.json())
 
-    // setup express app here
-    // ...
-
-    // start express server
     const PORT = 3000
     app.listen(PORT)
 
