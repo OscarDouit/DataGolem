@@ -1,41 +1,36 @@
-.logo {
-    height: 100%;
-    max-height: 50px;
-    object-fit: contain;
-}
-
 .app-bar {
-    position: absolute;
+    position: fixed; /* Utiliser fixed pour que la barre de navigation reste en place */
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // dégradé de background couleur du noir au transparent
     background: none;
     padding: 0 20px;
     height: 70px;
-    width: 100%;
-    border: none;
+    width: 100%; /* S'assurer que la largeur de la barre est de 100% de la page */
     z-index: 100;
 }
 
-li {
-    font-weight: 600;
-    font-size: 1rem;
-}
-
+/* Alignement du logo */
 .logo {
     height: 40px;
 }
 
+/* Centrer le menu */
 .menu-container {
     flex-grow: 1;
     display: flex;
     justify-content: center;
+    align-items: center; /* Assurez-vous que les éléments sont centrés verticalement */
 }
 
 #menu {
     background-color: transparent;
     border-bottom: none;
+    display: flex;
+    justify-content: center; /* Centrer les éléments horizontalement */
+    width: 100%; /* Assurez-vous que le menu prend toute la largeur disponible */
 }
 
 #menu .ant-menu-item {
@@ -45,8 +40,30 @@ li {
 .ant-menu {
     min-width: 400px;
     border: none;
+    display: flex;
+    justify-content: center; /* Centrer les éléments horizontalement */
 }
 
-body {
-    margin: 0;
+/* Conteneur pour le bouton de connexion */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px; /* Ajout de padding à droite */
+    overflow: hidden; /* Empêcher le débordement */
+}
+
+/* Empêcher que le bouton sorte de la page */
+#login-button {
+    min-width: 50px;
+}
+
+/* Icône dans le bouton de connexion */
+.login-button .anticon {
+    margin-right: 8px;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: black;
 }

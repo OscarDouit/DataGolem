@@ -85,3 +85,13 @@ html, body {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
+
+#main-content {
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
