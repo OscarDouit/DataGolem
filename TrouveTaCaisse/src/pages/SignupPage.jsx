@@ -178,7 +178,7 @@ function SignupPage() {
               <button type="submit">Créer un compte</button>
             </form>
             <p>
-              Déjà un compte ? <Link to="/">Se connecter</Link>
+              Déjà un compte ? <Link to="/login">Se connecter</Link>
             </p>
           </div>
           <div className="auth-image">
