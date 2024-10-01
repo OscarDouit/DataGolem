@@ -1,7 +1,7 @@
-
-import { Menu } from 'antd';
-import {useState} from "react";
+import {Button, Menu} from 'antd';
+import { useState } from "react";
 import './AppBar.css';
+import {UserOutlined} from "@ant-design/icons";
 
 const items = [
     {
@@ -38,11 +38,18 @@ const AppBar = () => {
     };
 
     return (
-        // mettre un logo sur la guche et le menu au centre
         <div className="app-bar">
+            {/* Logo à gauche */}
             <img src="https://static.vecteezy.com/system/resources/previews/000/623/448/original/auto-car-logo-template-vector-icon.jpg" alt="logo" className="logo" />
+
+            {/* Menu centré */}
             <div className="menu-container">
                 <Menu id={'menu'} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+            </div>
+
+            {/* Conteneur pour le bouton de connexion */}
+            <div className="login-container">
+                <Button id={'login-button'} icon={<UserOutlined style={{color: 'white'}} />} type="text" />
             </div>
         </div>
     );
