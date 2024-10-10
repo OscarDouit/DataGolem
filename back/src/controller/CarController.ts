@@ -42,10 +42,11 @@ export class CarController {
         response.status(200);
         return response.json(result);
     }
+
     async createCar(request: Request, response: Response, next: NextFunction) {
         console.log(request.body);
-        const { name, brand, image, video, description, characteristic } = request.body;
-        const car = new Car(name, brand, description, characteristic, image, video);
+        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel } = request.body;
+        const car = new Car(make, model, year, category, drive, transmission, cylinders, consumption, fuel);
 
         const carCreate = await this.carRepository.save(car);
         response.status(200);
@@ -54,7 +55,7 @@ export class CarController {
 
     async updateCar(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
-        const { name, brand, image, video, description, characteristic } = request.body;
+        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel } = request.body;
 
         let carToUpdate = await this.carRepository.findOne({ where: { id } });
 
@@ -63,12 +64,15 @@ export class CarController {
             return response.json({ message: "Car not found" });
         }
 
-        carToUpdate.name = name;
-        carToUpdate.brand = brand;
-        carToUpdate.image = image;
-        carToUpdate.video = video;
-        carToUpdate.description = description;
-        carToUpdate.characteristic = characteristic;
+        carToUpdate.make = make;
+        carToUpdate.model = model;
+        carToUpdate.year = year;
+        carToUpdate.category = category;
+        carToUpdate.drive = drive;
+        carToUpdate.transmission = transmission;
+        carToUpdate.cylinders = cylinders;
+        carToUpdate.consumption = consumption;
+        carToUpdate.fuel = fuel;
 
         const updatedCar = await this.carRepository.save(carToUpdate);
         response.status(200);

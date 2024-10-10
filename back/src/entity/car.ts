@@ -9,19 +9,31 @@ export class Car {
     id: number;
 
     @Column({ nullable: false })
-    name: string;
-
-    @Column({ nullable: false })
-    brand: string;
+    make: string;
 
     @Column()
-    image: string;
+    model: string;
 
     @Column()
-    video: string;
+    year: string;
 
-    @Column({ nullable: false })
-    description: string;
+    @Column()
+    category: string;
+
+    @Column()
+    drive: string;
+
+    @Column()
+    transmission: string;
+
+    @Column()
+    cylinders: string;
+
+    @Column()
+    consumption: string;
+
+    @Column()
+    fuel: string;
 
     @OneToMany(() => Comment, comment => comment.car)
     comments: Comment[];
@@ -29,15 +41,15 @@ export class Car {
     @OneToMany(() => CarLike, like => like.car)
     likes: CarLike[];
 
-    @Column({ nullable: false })
-    characteristic: string;
-
-    constructor(name: string, brand: string, description: string, characteristic: string, image: string, video: string) {
-        this.name = name;
-        this.brand = brand;
-        this.description = description;
-        this.characteristic = characteristic;
-        this.image = image;
-        this.video = video;
+    constructor(make: string, model: string, year: string, category: string, drive: string, transmission: string, cylinders: string, consumption: string, fuel) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.category = category;
+        this.drive = drive;
+        this.transmission = transmission;
+        this.cylinders = cylinders;
+        this.consumption = consumption;
+        this.fuel = fuel;
     }
 }
