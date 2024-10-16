@@ -21,6 +21,9 @@ export class User {
     @Column({ nullable: false })
     password: string;
 
+    @Column({ nullable: true })
+    refreshToken: string;
+
     @OneToMany(() => Comment, comment => comment.user)
     comments: Comment[];
 
@@ -30,5 +33,6 @@ export class User {
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.refreshToken = null;
     }
 }

@@ -16,7 +16,11 @@ AppDataSource.initialize().then(async () => {
     // create express app
 
     const app = express()
-    app.use(cors())
+
+    app.use(cors({
+        origin: 'http://localhost:4000',
+        credentials: true
+    }));
 
 
     app.use(bodyParser.json())

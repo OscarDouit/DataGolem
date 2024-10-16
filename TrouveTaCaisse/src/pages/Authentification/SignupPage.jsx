@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
+import axios from '../../api/axios.js';
 import validator from 'validator';
-import PasswordStrengthMeter from '../components/PasswordStrengthMeter/PasswordStrengthMeter';
+import PasswordStrengthMeter from '../../components/PasswordStrengthMeter/PasswordStrengthMeter.jsx';
 import './AuthPages.css';
 // Importation des icônes
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
+import ErrorField from "../../components/ErrorField/ErrorField.jsx";
 
 function SignupPage() {
   const [formData, setFormData] = useState({
@@ -107,7 +108,7 @@ function SignupPage() {
                     required
                 />
               </div>
-              {errors.firstname && <p className="error-message">{errors.firstname}</p>}
+              {errors.firstname && <ErrorField errorMessage={errors.firstname} />}
 
               <div className="input-icon-wrapper">
                 <FaUser className="input-icon" />
@@ -120,7 +121,7 @@ function SignupPage() {
                     required
                 />
               </div>
-              {errors.lastname && <p className="error-message">{errors.lastname}</p>}
+              {errors.lastname && <ErrorField errorMessage={errors.lastname} />}
 
               <div className="input-icon-wrapper">
                 <FaUser className="input-icon" />
@@ -133,7 +134,7 @@ function SignupPage() {
                     required
                 />
               </div>
-              {errors.pseudo && <p className="error-message">{errors.pseudo}</p>}
+              {errors.pseudo && <ErrorField errorMessage={errors.pseudo} />}
 
               <div className="input-icon-wrapper">
                 <FaEnvelope className="input-icon" />
@@ -146,7 +147,7 @@ function SignupPage() {
                     required
                 />
               </div>
-              {errors.email && <p className="error-message">{errors.email}</p>}
+              {errors.email && <ErrorField errorMessage={errors.email} />}
 
               <div className="input-icon-wrapper">
                 <FaLock className="input-icon" />
@@ -160,7 +161,7 @@ function SignupPage() {
                 />
               </div>
               <PasswordStrengthMeter password={formData.password} />
-              {errors.password && <p className="error-message">{errors.password}</p>}
+              {errors.password && <ErrorField errorMessage={errors.password} />}
 
               <div className="input-icon-wrapper">
                 <FaLock className="input-icon" />
@@ -173,6 +174,8 @@ function SignupPage() {
                     required
                 />
               </div>
+              {errors.confirmPassword && <ErrorField errorMessage={errors.confirmPassword} />}
+
               {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
               <button type="submit">Créer un compte</button>

@@ -1,0 +1,11 @@
+.error-container {
+    background: #ff4d4d;
+    padding: 0px 15px;
+}
+
+.error-message {
+    color: #FFFFFF;
+    font-size: 12px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}

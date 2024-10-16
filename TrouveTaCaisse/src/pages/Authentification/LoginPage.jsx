@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import '../App.css';
+import api from '../../api/axios.js';
+import '../../App.css';
 import './AuthPages.css';
 
 function LoginPage() {
-    const [email, setEmail] = useState('');
+    const [pseudoMail, setPseudoMail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // Ajout de l'état pour l'erreur
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await api.post('/login', { email, password });
-            navigate('/dashboard');
+            const response = await api.post('/users/login', { pseudoMail, password }, { withCredentials: true });
+            console.log("response !!!", response);
+            navigate('/');
         } catch (error) {
             console.error('Erreur de connexion:', error.response?.data);
             if (error.response && error.response.data) {
@@ -35,8 +36,8 @@ function LoginPage() {
                         <input
                             type="text"
                             placeholder="Pseudo ou adresse e-mail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={pseudoMail}
+                            onChange={(e) => setPseudoMail(e.target.value)}
                             required
                         />
                         <input
