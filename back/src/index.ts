@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser"
 import { createNewAppDataSource} from "./data-source"
 import { config } from 'dotenv';
 import * as path from "path"
+import * as cookieParser from 'cookie-parser';
 
 let configPath = path.join(__dirname, "../.env")
 config({path: configPath});
@@ -22,6 +23,7 @@ AppDataSource.initialize().then(async () => {
         credentials: true
     }));
 
+    app.use(cookieParser());
 
     app.use(bodyParser.json())
 

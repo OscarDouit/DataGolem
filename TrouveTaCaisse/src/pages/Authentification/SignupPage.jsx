@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../api/axios.js';
 import validator from 'validator';
 import PasswordStrengthMeter from '../../components/PasswordStrengthMeter/PasswordStrengthMeter.jsx';
-import './AuthPages.css';
+import styles from './AuthPages.module.css';
 // Importation des icônes
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import ErrorField from "../../components/ErrorField/ErrorField.jsx";
@@ -92,13 +92,13 @@ function SignupPage() {
   };
 
   return (
-      <div className={'authentification-container'}>
-        <div className="auth-container">
-          <div className="auth-form-container">
+      <div className={styles['authentification-container']}>
+        <div className={styles['auth-container']}>
+          <div className={styles['auth-form-container']}>
             <h1>Créer un compte</h1>
             <form onSubmit={handleSubmit}>
-              <div className="input-icon-wrapper">
-                <FaUser className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaUser className={styles['input-icon']} />
                 <input
                     type="text"
                     name="firstname"
@@ -110,8 +110,8 @@ function SignupPage() {
               </div>
               {errors.firstname && <ErrorField errorMessage={errors.firstname} />}
 
-              <div className="input-icon-wrapper">
-                <FaUser className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaUser className={styles['input-icon']} />
                 <input
                     type="text"
                     name="lastname"
@@ -123,8 +123,8 @@ function SignupPage() {
               </div>
               {errors.lastname && <ErrorField errorMessage={errors.lastname} />}
 
-              <div className="input-icon-wrapper">
-                <FaUser className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaUser className={styles['input-icon']} />
                 <input
                     type="text"
                     name="pseudo"
@@ -136,8 +136,8 @@ function SignupPage() {
               </div>
               {errors.pseudo && <ErrorField errorMessage={errors.pseudo} />}
 
-              <div className="input-icon-wrapper">
-                <FaEnvelope className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaEnvelope className={styles['input-icon']} />
                 <input
                     type="email"
                     name="email"
@@ -149,8 +149,8 @@ function SignupPage() {
               </div>
               {errors.email && <ErrorField errorMessage={errors.email} />}
 
-              <div className="input-icon-wrapper">
-                <FaLock className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaLock className={styles['input-icon']} />
                 <input
                     type="password"
                     name="password"
@@ -163,8 +163,8 @@ function SignupPage() {
               <PasswordStrengthMeter password={formData.password} />
               {errors.password && <ErrorField errorMessage={errors.password} />}
 
-              <div className="input-icon-wrapper">
-                <FaLock className="input-icon" />
+              <div className={styles['input-icon-wrapper']}>
+                <FaLock className={styles['input-icon']} />
                 <input
                     type="password"
                     name="confirmPassword"
@@ -176,15 +176,15 @@ function SignupPage() {
               </div>
               {errors.confirmPassword && <ErrorField errorMessage={errors.confirmPassword} />}
 
-              {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && <p className={styles['error-message']}>{errors.confirmPassword}</p>}
 
               <button type="submit">Créer un compte</button>
             </form>
-            <p>
+            <p className={styles['link-text']}>
               Déjà un compte ? <Link to="/login">Se connecter</Link>
             </p>
           </div>
-          <div className="auth-image">
+          <div className={styles['auth-image']}>
             <h2>Rejoignez-nous !</h2>
             <p>Créez votre compte pour accéder à toutes nos fonctionnalités</p>
           </div>

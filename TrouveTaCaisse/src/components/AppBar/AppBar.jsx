@@ -1,10 +1,12 @@
-import {Button, Menu} from 'antd';
-import { useState } from "react";
+import {Button, Menu, Dropdown, Avatar} from 'antd';
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './AppBar.css';
-import {UserOutlined} from "@ant-design/icons";
+import {UserOutlined, LogoutOutlined} from "@ant-design/icons";
+import useUserStore from '../../store/userStore';
+import api from '../../api/axios.js';
 
-const items = [
+const navItems = [
     {
         key: '1',
         label: (
@@ -34,6 +36,30 @@ const items = [
 const AppBar = () => {
     const [current, setCurrent] = useState('1');
     const navigate = useNavigate();
+    const { user, isAuthenticated, isLoading, checkAuth, logout } = useUserStore();
+
+    const handleLogout = async () => {
+        try {
+            await api.post('/users/logout', {}, { withCredentials: true });
+            logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion:', error);
+        }
+    };
+
+    const userMenuItems = [
+        {
+            key: 'logout',
+            label: 'Déconnexion',
+            icon: <LogoutOutlined />,
+            onClick: handleLogout
+        }
+    ];
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
 
     const onClick = (e) => {
         setCurrent(e.key);
@@ -49,17 +75,42 @@ const AppBar = () => {
 
     return (
         <div className="app-bar">
-            {/* Logo à gauche */}
-            <img src="https://static.vecteezy.com/system/resources/previews/000/623/448/original/auto-car-logo-template-vector-icon.jpg" alt="logo" onClick={handleHome} className="logo" />
+            <img 
+                src="https://static.vecteezy.com/system/resources/previews/000/623/448/original/auto-car-logo-template-vector-icon.jpg" 
+                alt="logo" 
+                onClick={handleHome} 
+                className="logo" 
+            />
 
-            {/* Menu centré */}
+            
             <div className="menu-container">
-                <Menu id={'menu'} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+                <Menu 
+                    id={'menu'} 
+                    onClick={onClick} 
+                    selectedKeys={[current]} 
+                    mode="horizontal" 
+                    items={navItems} 
+                />
             </div>
 
-            {/* Conteneur pour le bouton de connexion */}
             <div className="login-container">
-                <Button id={'login-button'} icon={<UserOutlined style={{color: 'white'}} />} type="text" onClick={handleLogin} />
+                {isLoading ? (
+                    <span>Chargement...</span>
+                ) : isAuthenticated && user ? (
+                    <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+                        <div className="user-avatar-container">
+                            <Avatar icon={<UserOutlined />} className="user-avatar" />
+                            <span className="user-pseudo">{user.pseudo}</span>
+                        </div>
+                    </Dropdown>
+                ) : (
+                    <Button 
+                        id={'login-button'} 
+                        icon={<UserOutlined style={{color: 'white'}} />} 
+                        type="text" 
+                        onClick={handleLogin} 
+                    />
+                )}
             </div>
         </div>
     );

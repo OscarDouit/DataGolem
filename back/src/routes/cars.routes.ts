@@ -1,13 +1,22 @@
 import {Router} from "express";
 import {CarController} from "../controller/CarController";
+import {CommentController} from "../controller/CommentController";
+import { authenticateJWT, requireAuthentication } from "../middleware/authMiddleware";
 
 const router = Router();
 const carController = new CarController();
+const commentController = new CommentController();
 
-router.get('/', (req, res, next) => carController.findAll(req, res, next));
-router.get('/:id', (req, res, next) => carController.findOne(req, res, next));
-router.post('/', (req, res, next) => carController.createCar(req, res, next));
-router.delete('/:id', (req, res, next) => carController.deleteCar(req, res, next));
-router.post('/:id/like', (req, res, next) => carController.addLike(req, res, next));
+// Voitures
+router.get('/', carController.findAll.bind(carController));
+router.get('/:id', authenticateJWT, carController.findOne.bind(carController));
+router.post('/', carController.createCar.bind(carController));
+router.delete('/:id', carController.deleteCar.bind(carController));
+router.post('/:id/vote', requireAuthentication, carController.toggleVote.bind(carController));
+
+// Commentaires voiture
+router.get('/:id/comments', authenticateJWT, commentController.findVehiculeComments.bind(commentController));
+router.post('/:id/comments', requireAuthentication, authenticateJWT, commentController.createComment.bind(commentController));
+router.post('/:id/comments/:commentId/vote', requireAuthentication, authenticateJWT,commentController.toggleVote.bind(commentController));
 
 export default router;

@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+  box-sizing: border-box;
+}
+
+.authentification-container {
+  font-family: 'Poppins', sans-serif;
+  background-image: url('../../assets/voiture.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.auth-container {
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+  width: 968px;
+  max-width: 100%;
+  min-height: 720px;
+  display: flex;
+}
+
+.auth-container-login {
+  min-height: 620px;
+}
+
+.auth-form-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.auth-image {
+  right: 0;
+  width: 50%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.97), rgba(40, 37, 38, 0.97));
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+}
+
+.input-icon-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input-icon-wrapper input {
+  width: 100%;
+  padding: 12px 35px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.auth-form-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-form-container button:hover {
+  background-color: #0056b3;
+}
+
+.auth-form-container h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.auth-image h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.auth-image p {
+  font-size: 18px;
+}
+
+.link-text {
+  margin-top: 20px;
+}
+
+.link-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .auth-form-container,
+  .auth-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .auth-image {
+    padding: 30px 40px;
+  }
+}

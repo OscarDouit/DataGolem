@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { Car } from "../entity/car";
 import { AppDataSource } from "../index";
-import {User} from "../entity/user";
 import {CarLike} from "../entity/car-like";
+import { CarDto } from "../dto/car.dto";
 
 export class CarController {
     private carRepository = AppDataSource.getRepository(Car);
@@ -30,13 +30,20 @@ export class CarController {
             return response.json({ message: "Car not found" });
         }
 
-        const result = {
-            ...car,
-            likes: car.likes.map(like => ({
-                id: like.id,
-                type: like.type,
-                userId: like.user ? like.user.id : null
-            }))
+        const result: CarDto = {
+            id: car.id,
+            make: car.make,
+            model: car.model,
+            year: car.year,
+            category: car.category,
+            drive: car.drive,
+            transmission: car.transmission,
+            cylinders: car.cylinders,
+            consumption: car.consumption,
+            fuel: car.fuel,
+            likes: car.likes.filter(like => like.type === 'like').length,
+            dislikes: car.likes.filter(like => like.type === 'dislike').length,
+            userVote: car.likes.find(like => like.user?.id === request.user?.id)?.type,
         };
 
         response.status(200);
@@ -44,7 +51,6 @@ export class CarController {
     }
 
     async createCar(request: Request, response: Response, next: NextFunction) {
-        console.log(request.body);
         const { make, model, year, category, drive, transmission, cylinders, consumption, fuel } = request.body;
         const car = new Car(make, model, year, category, drive, transmission, cylinders, consumption, fuel);
 
@@ -94,29 +100,75 @@ export class CarController {
         return response.json({ message: "Car deleted successfully" });
     }
 
-    async addLike(request: Request, response: Response, next: NextFunction) {
-        const carId = parseInt(request.params.id);
-        const userId = parseInt(request.body.user);
+    async toggleVote(request: Request, response: Response, next: NextFunction) {
+        try {
+            const carId = parseInt(request.params.id);
+            const userId = request.user.id;
+            const { type } = request.body; // like ou dislike
 
-        if (isNaN(carId) || isNaN(userId)) {
-            response.status(400);
-            return response.json({ message: "Invalid car or user ID" });
+            if (!['like', 'dislike'].includes(type)) {
+                return response.status(400).json({ message: "Type de vote invalide" });
+            }
+
+            const carLikeRepository = AppDataSource.getRepository(CarLike);
+            
+            // On récupère le vote existant pour savoir s'il faut le supprimer, le créer ou le mettre à jour
+            const existingVote = await carLikeRepository.findOne({
+                where: {
+                    car: { id: carId },
+                    user: { id: userId }
+                }
+            });
+
+            // Si le vote exite, suppression ou mise à jour
+            if (existingVote) {
+                if (existingVote.type === type) {
+                    // Le vote est identique et il existe, on va le supprimer
+                    await carLikeRepository.remove(existingVote);
+                } else {
+                    // On met à jour le vote
+                    existingVote.type = type;
+                    await carLikeRepository.save(existingVote);
+                }
+            } else {
+                // Création d'un nouveau vote
+                const newVote = carLikeRepository.create({
+                    car: { id: carId },
+                    user: { id: userId },
+                    type
+                });
+                await carLikeRepository.save(newVote);
+            }
+
+            // On récupère la voiture avec les votes mis à jour
+            const car = await this.carRepository.findOne({ where: { id: carId }, relations: ["comments", "likes", "likes.user"] });
+
+            if (!car) {
+                response.status(404);
+                return response.json({ message: "Voiture non trouvée" });
+            }
+    
+            const result: CarDto = {
+                id: car.id,
+                make: car.make,
+                model: car.model,
+                year: car.year,
+                category: car.category,
+                drive: car.drive,
+                transmission: car.transmission,
+                cylinders: car.cylinders,
+                consumption: car.consumption,
+                fuel: car.fuel,
+                likes: car.likes.filter(like => like.type === 'like').length,
+                dislikes: car.likes.filter(like => like.type === 'dislike').length,
+                userVote: car.likes.find(like => like.user?.id === request.user?.id)?.type,
+            };
+    
+            response.status(200);
+            return response.json(result);            
+        } catch (error) {
+            console.error('Erreur lors du vote:', error);
+            return response.status(500).json({ message: "Erreur lors du vote" });
         }
-
-        const type = request.body.type;
-
-        const car = await this.carRepository.findOne({ where: { id: carId } });
-        const user = await AppDataSource.getRepository(User).findOne({ where: { id: userId } });
-
-        if (!car || !user) {
-            response.status(404);
-            return response.json({ message: "Car or User not found" });
-        }
-
-        const carLike = new CarLike(user, car, type);
-        const savedLike = await this.carLikeRepository.save(carLike);
-
-        response.status(200);
-        return response.json(savedLike);
     }
 }

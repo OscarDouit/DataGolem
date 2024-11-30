@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, CreateDateColumn } from "typeorm";
 import { User } from "./user";
 import { CommentLike } from "./comment-like";
 import { Car } from "./car";
@@ -21,6 +21,9 @@ export class Comment {
     @ManyToOne(() => Car, car => car.comments, { nullable: false })
     @JoinColumn({ name: "carId" })
     car: Car;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
     constructor(text: string, user: User, car: Car) {
         this.text = text;

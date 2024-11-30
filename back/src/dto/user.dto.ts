@@ -1,15 +1,15 @@
 import {User} from "../entity/user";
 
-export class UserDto {
+export interface UserDto {
     id: number;
     pseudo: string;
     email: string;
+}
 
-    static fromEntity(user: User): UserDto {
-        const userDto = new UserDto();
-        userDto.id = user.id;
-        userDto.pseudo = user.pseudo;
-        userDto.email = user.email;
-        return userDto;
-    }
+export const userDtoFactory = (user: User): UserDto => {
+    return {
+        id: user.id,
+        pseudo: user.pseudo,
+        email: user.email
+    };
 }

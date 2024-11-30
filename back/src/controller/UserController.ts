@@ -1,38 +1,34 @@
 
 import { NextFunction, Request, Response } from "express"
 import { User } from "../entity/user"
-import {UserDto} from "../dto/user.dto";
+import {UserDto, userDtoFactory} from "../dto/user.dto";
 import {PasswordService} from "../services/password.service";
 import {AppDataSource} from "../index";
 import { sign, verify, JwtPayload } from 'jsonwebtoken';
+import { userMeDtoFactory } from "../dto/userMe.dto";
 
 export class UserController {
 
     private userRepository = AppDataSource.getRepository(User)
 
-    async findAll(request: Request, response: Response, next: NextFunction) {
-        const users: User[] = await this.userRepository.find()
-        const usersDto: UserDto[] = users.map(user => UserDto.fromEntity(user));
+    async findCurrentUser(request: Request, response: Response, next: NextFunction) {
+        const id = parseInt(request?.user?.id)
 
-        return response.json(
-            usersDto
-        );
-    }
+        let user: User | null = null;
 
-    async findOne(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+        if (id) {
+            user = await this.userRepository.findOne({
+                where: { id }
+            });
 
-        const user = await this.userRepository.findOne({
-            where: { id }
-        })
-
-        if (!user) {
-            response.status(404)
-            return response.json({ message: "User not found" })
+            if (!user) {
+                response.status(404)
+                return response.json({ message: "User not found" })
+            }
         }
 
         response.status(200)
-        return response.json(UserDto.fromEntity(user));
+        return response.json(userMeDtoFactory(user));
     }
 
     async createUser(request: Request, response: Response, next: NextFunction) {
@@ -60,7 +56,7 @@ export class UserController {
         const userCreate = await this.userRepository.save(user)
 
         response.status(200)
-        return response.json(UserDto.fromEntity(userCreate));
+        return response.json(userDtoFactory(userCreate));
     }
 
     async deleteUser(request: Request, response: Response, next: NextFunction) {
@@ -105,7 +101,7 @@ export class UserController {
             { expiresIn: '1h' }
         );
 
-        response.cookie('token', accessToken, {
+        response.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: process.env.ENV === 'PRD',
             sameSite: 'strict',
@@ -169,24 +165,20 @@ export class UserController {
     }
 
     async logout(request: Request, response: Response) {
-        const { refreshToken } = request.body;
+        const userId = parseInt(request?.user?.id)
 
-        if (!refreshToken) {
-            return response.status(400).json({ message: 'Refresh token est requis' });
+        if (!userId) {
+            return response.sendStatus(400);
+        }        
+
+        const user = await this.userRepository.findOne({ where: { id: userId } });
+ 
+        if (user) {
+            user.refreshToken = null;
+            await this.userRepository.save(user);
         }
-
-        let userId: string;
-
-        try {
-            const decoded = verify(refreshToken, process.env.JWT_SECRET) as JwtPayload;
-            userId = decoded.id;
-        } catch (error) {
-            return response.status(401).json({ message: 'Refresh token invalide' });
-        }
-
-        await this.userRepository.update(userId, { refreshToken: null });
 
         response.clearCookie('accessToken');
-        response.json({ message: 'Déconnexion réussie' });
+        response.json(200, { message: 'Déconnexion réussie' });
     }
 }
