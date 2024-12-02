@@ -118,3 +118,76 @@
 .ant-dropdown-menu-item {
     border-radius: 4px;
 }
+
+.search-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.search-input {
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Ajuster le wrapper pour un alignement parfait */
+.search-input .ant-input-group {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+.search-input .ant-input-wrapper {
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+/* Styles pour l'input */
+.search-input .ant-input {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 24px 0 0 24px;
+    border: none;
+    padding: 4px 11px;
+    color: white;
+}
+
+/* Styles pour le groupe du bouton */
+.search-input .ant-input-group-addon {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* Styles pour le bouton de recherche */
+.search-input .ant-input-search-button {
+    border-radius: 0 24px 24px 0 !important;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    margin: 0 !important;
+    padding: 0 11px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Styles pour l'icône de recherche */
+.search-input .anticon-search {
+    color: white;
+    font-size: 14px;
+}
+
+/* Styles pour le placeholder */
+.search-input .ant-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Styles pour le hover */
+.search-input .ant-input:hover,
+.search-input .ant-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.search-input .ant-input-search-button:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+}

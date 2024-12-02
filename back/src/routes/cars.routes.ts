@@ -8,15 +8,15 @@ const carController = new CarController();
 const commentController = new CommentController();
 
 // Voitures
-router.get('/', carController.findAll.bind(carController));
+router.get('/search', carController.searchCars.bind(carController));
 router.get('/:id', authenticateJWT, carController.findOne.bind(carController));
-router.post('/', carController.createCar.bind(carController));
-router.delete('/:id', carController.deleteCar.bind(carController));
+// router.post('/', carController.createCar.bind(carController));
+// router.delete('/:id', carController.deleteCar.bind(carController));
 router.post('/:id/vote', requireAuthentication, carController.toggleVote.bind(carController));
 
 // Commentaires voiture
 router.get('/:id/comments', authenticateJWT, commentController.findVehiculeComments.bind(commentController));
-router.post('/:id/comments', requireAuthentication, authenticateJWT, commentController.createComment.bind(commentController));
-router.post('/:id/comments/:commentId/vote', requireAuthentication, authenticateJWT,commentController.toggleVote.bind(commentController));
+router.post('/:id/comments', requireAuthentication, commentController.createComment.bind(commentController));
+router.post('/:id/comments/:commentId/vote', requireAuthentication,commentController.toggleVote.bind(commentController));
 
 export default router;

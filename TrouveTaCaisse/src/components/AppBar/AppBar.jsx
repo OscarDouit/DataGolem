@@ -1,42 +1,19 @@
-import {Button, Menu, Dropdown, Avatar} from 'antd';
+import {Button, Dropdown, Avatar, Input} from 'antd';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './AppBar.css';
-import {UserOutlined, LogoutOutlined} from "@ant-design/icons";
+import {UserOutlined, LogoutOutlined, SearchOutlined} from "@ant-design/icons";
 import useUserStore from '../../store/userStore';
 import api from '../../api/axios.js';
 
-const navItems = [
-    {
-        key: '1',
-        label: (
-            <a rel="noopener noreferrer">
-                Découvrir
-            </a>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <a rel="noopener noreferrer">
-                Rechercher
-            </a>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <a rel="noopener noreferrer">
-                Apprendre
-            </a>
-        ),
-    },
-]
-
 const AppBar = () => {
-    const [current, setCurrent] = useState('1');
+    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
     const { user, isAuthenticated, isLoading, checkAuth, logout } = useUserStore();
+
+    const handleSearch = async (value) => {
+        navigate(`/search?q=${encodeURIComponent(value)}`);
+    };
 
     const handleLogout = async () => {
         try {
@@ -61,10 +38,6 @@ const AppBar = () => {
         checkAuth();
     }, []);
 
-    const onClick = (e) => {
-        setCurrent(e.key);
-    };
-
     const handleLogin = () => {
         navigate('/login');
     }
@@ -82,14 +55,16 @@ const AppBar = () => {
                 className="logo" 
             />
 
-            
-            <div className="menu-container">
-                <Menu 
-                    id={'menu'} 
-                    onClick={onClick} 
-                    selectedKeys={[current]} 
-                    mode="horizontal" 
-                    items={navItems} 
+            <div className="search-container">
+                <Input.Search
+                    placeholder="Rechercher un véhicule..."
+                    allowClear
+                    enterButton={<SearchOutlined />}
+                    size="middle"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    onSearch={handleSearch}
+                    className="search-input"
                 />
             </div>
 

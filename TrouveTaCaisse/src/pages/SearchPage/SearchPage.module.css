@@ -1,0 +1,161 @@
+.container {
+    padding: 100px 24px 24px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+}
+
+.title {
+    margin-bottom: 24px;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.carCard {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.carCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.carCard :global(.ant-card-meta-title) {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.carCard :global(.ant-card-meta-description) {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.carCard :global(.ant-card-meta-description) p {
+    margin: 8px 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.empty {
+    color: white;
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+:global(.ant-empty-description) {
+    color: white !important;
+}
+
+:global(.ant-spin-dot-item) {
+    background-color: white !important;
+}
+
+.pagination {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination :global(.ant-pagination-item) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pagination :global(.ant-pagination-item-active) {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pagination :global(.ant-pagination-prev),
+.pagination :global(.ant-pagination-next) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pagination :global(.ant-pagination-item a) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: white;
+}
+
+.pagination :global(.ant-pagination-prev button),
+.pagination :global(.ant-pagination-next button) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.pagination :global(.ant-pagination-item:hover) {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.pagination :global(.ant-pagination-item:hover a) {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.pagination :global(.ant-pagination-item-ellipsis) {
+    color: white !important;
+}
+
+.pagination :global(.anticon) {
+    color: white !important;
+}
+
+.searchForm {
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.form :global(.ant-form-item-label > label) {
+    color: white;
+}
+
+.form :global(.ant-select-selector),
+.form :global(.ant-input) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.form :global(.ant-select-selection-placeholder),
+.form :global(.ant-input::placeholder) {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.form :global(.ant-select-arrow) {
+    color: white;
+}
+
+.searchButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.resultCount {
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+} 

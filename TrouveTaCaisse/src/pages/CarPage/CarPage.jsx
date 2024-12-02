@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { Button, Spin } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import CarDetails from '../../components/CarDetails/CarDetails';
 import CarComments from '../../components/CarComments/CarComments';
 import styles from './CarPage.module.css';
 import api from '../../api/axios';
 import useUserStore from '../../store/userStore';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 const CarPage = () => {
   const { id } = useParams();
@@ -16,9 +17,19 @@ const CarPage = () => {
   const { isAuthenticated } = useUserStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const searchState = location.state?.searchState;
 
   const handleUnauthorizedAction = () => {
     navigate('/login', { state: { from: location.pathname } });
+  };
+
+  const handleBackToSearch = () => {
+    // Si on a des critères de recherche, on retourne à la recherche en passant tous les critères dans la route
+    if (searchState) {
+      navigate('/search' + searchState);
+    } else {
+      navigate('/search');
+    }
   };
 
   useEffect(() => {
@@ -98,17 +109,28 @@ const CarPage = () => {
     }
   };
 
-  if (loading) return <div className={styles.loading}>Chargement...</div>;
+  if (loading) return <div className="loadingContainer"><Spin size="large" /></div>
   if (error) return <div className={styles.error}>{error}</div>;
   if (!car) return <div className={styles.error}>Voiture non trouvée</div>;
 
   return (
     <div className={styles.background}>
       <div className={styles['car-page']}>
+        {searchState && (
+          <Button 
+            icon={<ArrowLeftOutlined />} 
+            onClick={handleBackToSearch}
+            className={styles.backButton}
+            type="primary"
+          >
+            Retour aux résultats
+          </Button>
+        )}
         <div className={styles['content-container']}>
           <CarDetails 
-             car={car}
-             onVote={handleVoteCar}/>
+            car={car}
+            onVote={handleVoteCar}
+          />
           <CarComments 
             comments={comments}
             onAddComment={handleAddComment}

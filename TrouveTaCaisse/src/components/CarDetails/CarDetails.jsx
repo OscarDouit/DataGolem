@@ -81,8 +81,6 @@ const CarDetails = ({ car, onVote }) => {
                 <FaThumbsDown /> <span>{car.dislikes || 0}</span>
               </button>
             </div>
- 
-
     </div>
   );
 };

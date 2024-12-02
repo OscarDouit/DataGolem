@@ -3,23 +3,11 @@ import { Car } from "../entity/car";
 import { AppDataSource } from "../index";
 import {CarLike} from "../entity/car-like";
 import { CarDto } from "../dto/car.dto";
+import { Brackets } from "typeorm";
 
 export class CarController {
     private carRepository = AppDataSource.getRepository(Car);
     private carLikeRepository = AppDataSource.getRepository(CarLike);
-
-    async findAll(request: Request, response: Response, next: NextFunction) {
-        const cars: Car[] = await this.carRepository.find({ relations: ["comments", "likes", "likes.user"] });
-        const result = cars.map(car => ({
-            ...car,
-            likes: car.likes.map(like => ({
-                id: like.id,
-                type: like.type,
-                userId: like.user ? like.user.id : null
-            }))
-        }));
-        return response.json(result);
-    }
 
     async findOne(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
@@ -169,6 +157,85 @@ export class CarController {
         } catch (error) {
             console.error('Erreur lors du vote:', error);
             return response.status(500).json({ message: "Erreur lors du vote" });
+        }
+    }
+
+    public async searchCars(req: Request, res: Response) {
+        try {
+            const { q, make, model, year, category, transmission, fuel, minConsumption, maxConsumption } = req.query;
+            const page = parseInt(req.query.page as string) || 1;
+            const pageSize = 8;
+
+            const queryBuilder = this.carRepository
+                .createQueryBuilder("car")
+                .select([
+                    "car.id",
+                    "car.make",
+                    "car.model",
+                    "car.year",
+                    "car.category",
+                    "car.transmission",
+                    "car.fuel",
+                    "car.consumption"
+                ]);
+
+            // Recherche fulltext si q est présent
+            if (q) {
+                queryBuilder.where(
+                    "to_tsvector('french', COALESCE(car.make, '') || ' ' || " +
+                    "COALESCE(car.model, '') || ' ' || " +
+                    "COALESCE(car.year, '') || ' ' || " +
+                    "COALESCE(car.category, '') || ' ' || " +
+                    "COALESCE(car.transmission, '') || ' ' || " +
+                    "COALESCE(car.fuel, '')) @@ plainto_tsquery('french', :q)",
+                    { q: q.toString() }
+                );
+            }
+
+            // Autres filtres
+            if (make) {
+                queryBuilder.andWhere("LOWER(car.make) = LOWER(:make)", { make: make.toString() });
+            }
+            if (model) {
+                queryBuilder.andWhere("LOWER(car.model) LIKE :model", { model: `%${model.toString().toLowerCase()}%` });
+            }
+            if (year) {
+                queryBuilder.andWhere("car.year = :year", { year: year.toString() });
+            }
+            if (category) {
+                queryBuilder.andWhere("LOWER(car.category) = LOWER(:category)", { category: category.toString() });
+            }
+            if (transmission) {
+                queryBuilder.andWhere("LOWER(car.transmission) = LOWER(:transmission)", { transmission: transmission.toString() });
+            }
+            if (fuel) {
+                queryBuilder.andWhere("LOWER(car.fuel) = LOWER(:fuel)", { fuel: fuel.toString() });
+            }
+            if (minConsumption) {
+                queryBuilder.andWhere("car.consumption >= :minConsumption", 
+                    { minConsumption: parseFloat(minConsumption.toString()) });
+            }
+            if (maxConsumption) {
+                queryBuilder.andWhere("car.consumption <= :maxConsumption", 
+                    { maxConsumption: parseFloat(maxConsumption.toString()) });
+            }
+
+            const total = await queryBuilder.getCount();
+            const cars = await queryBuilder
+                .orderBy("car.make, car.model", "ASC")
+                .offset((page - 1) * pageSize)
+                .limit(pageSize)
+                .getMany();
+
+            return res.json({
+                cars,
+                total,
+                currentPage: page,
+                totalPages: Math.ceil(total / pageSize)
+            });
+        } catch (error) {
+            console.error('Erreur lors de la recherche:', error);
+            return res.status(500).json({ message: "Erreur lors de la recherche des véhicules" });
         }
     }
 }

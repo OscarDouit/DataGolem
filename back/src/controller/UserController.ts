@@ -95,32 +95,28 @@ export class UserController {
             return response.status(401).json({ message: "Utilisateur ou mot de passe incorrect" });
         }
 
+        // On génère un acessToken
         const accessToken = sign(
             { id: user.id, username: user.pseudo },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '1h' } // 1h avant l'expiration du token
         );
 
         response.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: process.env.ENV === 'PRD',
             sameSite: 'strict',
-            maxAge: 60 * 60 * 1000
+            maxAge: 60 * 60 * 1000 // 1h de validité pour le cookie
         });
 
+        // On génère un refreshToken
         const refreshToken = sign(
             { id: user.id, username: user.pseudo, type: 'refresh' },
-            process.env.JWT_SECRET,
-            { expiresIn: '7d' }
+            process.env.JWT_SECRET_REFRESH_TOKEN,
+            { expiresIn: '7d' } // 7h davant l'expiration du refreshToken
         );
 
-        response.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: process.env.ENV === 'PRD',
-            sameSite: 'strict',
-            maxAge: 60 * 60 * 1000
-        });
-
+        // On va sauvegarder ce refreskToken pour l'utilisateur
         await this.storeRefreshToken(user.id, refreshToken);
 
         response.status(200).json({ message: 'Connexion réussie' });
@@ -132,36 +128,6 @@ export class UserController {
             user.refreshToken = refreshToken;
             await this.userRepository.save(user);
         }
-    }
-
-    async refreshToken(request: Request, response: Response) {
-        const { refreshToken } = request.body;
-
-        if (!refreshToken) {
-            return response.sendStatus(401);
-        }
-
-        verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN, async (err: any, user: any) => {
-            if (err) {
-                return response.sendStatus(401);
-            }
-
-            const userForId = await this.userRepository.findOne({ where: { id: user.id } });
-            if (!userForId || user.refreshToken !== refreshToken) {
-                return response.sendStatus(401);
-            }
-
-            const newAccessToken = sign(
-                { id: user.id, username: user.username },
-                process.env.JWT_SECRET,
-                { expiresIn: '1h' }
-            );
-
-            await this.storeRefreshToken(user.id, refreshToken);
-
-            response.cookie('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'strict' });
-            response.json({ accessToken: newAccessToken });
-        });
     }
 
     async logout(request: Request, response: Response) {
