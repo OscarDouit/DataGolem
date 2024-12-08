@@ -5,6 +5,7 @@ export interface CarDto {
     year: string;
     category: string;
     drive: string;
+    image?: string;
     transmission: string;
     cylinders: string;
     consumption: string;

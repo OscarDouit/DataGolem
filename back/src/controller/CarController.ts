@@ -22,6 +22,7 @@ export class CarController {
             id: car.id,
             make: car.make,
             model: car.model,
+            image: car.image,
             year: car.year,
             category: car.category,
             drive: car.drive,
@@ -39,8 +40,8 @@ export class CarController {
     }
 
     async createCar(request: Request, response: Response, next: NextFunction) {
-        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel } = request.body;
-        const car = new Car(make, model, year, category, drive, transmission, cylinders, consumption, fuel);
+        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel, image } = request.body;
+        const car = new Car(make, model, year, category, drive, transmission, cylinders, consumption, fuel, image);
 
         const carCreate = await this.carRepository.save(car);
         response.status(200);
@@ -49,7 +50,7 @@ export class CarController {
 
     async updateCar(request: Request, response: Response, next: NextFunction) {
         const id = parseInt(request.params.id);
-        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel } = request.body;
+        const { make, model, year, category, drive, transmission, cylinders, consumption, fuel, image } = request.body;
 
         let carToUpdate = await this.carRepository.findOne({ where: { id } });
 
@@ -67,6 +68,7 @@ export class CarController {
         carToUpdate.cylinders = cylinders;
         carToUpdate.consumption = consumption;
         carToUpdate.fuel = fuel;
+        carToUpdate.image = image;
 
         const updatedCar = await this.carRepository.save(carToUpdate);
         response.status(200);
@@ -147,6 +149,7 @@ export class CarController {
                 cylinders: car.cylinders,
                 consumption: car.consumption,
                 fuel: car.fuel,
+                image: car.image,
                 likes: car.likes.filter(like => like.type === 'like').length,
                 dislikes: car.likes.filter(like => like.type === 'dislike').length,
                 userVote: car.likes.find(like => like.user?.id === request.user?.id)?.type,

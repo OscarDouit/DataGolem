@@ -35,13 +35,16 @@ export class Car {
     @Column()
     fuel: string;
 
+    @Column({ nullable: true })
+    image: string;
+
     @OneToMany(() => Comment, comment => comment.car)
     comments: Comment[];
 
     @OneToMany(() => CarLike, like => like.car)
     likes: CarLike[];
 
-    constructor(make: string, model: string, year: string, category: string, drive: string, transmission: string, cylinders: string, consumption: string, fuel) {
+    constructor(make: string, model: string, year: string, category: string, drive: string, image: string, transmission: string, cylinders: string, consumption: string, fuel) {
         this.make = make;
         this.model = model;
         this.year = year;
@@ -51,5 +54,7 @@ export class Car {
         this.cylinders = cylinders;
         this.consumption = consumption;
         this.fuel = fuel;
+        this.image= image;
+
     }
 }
