@@ -12,13 +12,17 @@ const CarDetails = ({ car, onVote }) => {
   return (
     <div className={styles['car-details']}>
       <div className={styles['car-info']}>
-        <h1 className={styles['car-title']}>
-          {car.make} {car.model}
-        </h1>
-
+        <div className={styles['carImageContainer']}>
+          <h1 className={styles['car-title']}>
+            {car.make} {car.model}
+          </h1>
+          {
+              car.image && <img src={car.image} alt={car.make} className={styles['car-image']}/>
+          }
+        </div>
         <div className={styles['info-grid']}>
-          <div className={styles['info-item']}>
-            <FaCar className={styles.icon} />
+        <div className={styles['info-item']}>
+            <FaCar className={styles.icon}/>
             <span className={styles.label}>Marque</span>
             <span className={styles.value}>{car.make}</span>
           </div>

@@ -39,6 +39,7 @@ const CarPage = () => {
           api.get(`/cars/${id}`),
           api.get(`/cars/${id}/comments`)
         ]);
+        console.log('carResponse:', carResponse.data);
         setCar(carResponse.data);
         setComments(commentsResponse.data);
       } catch (err) {
